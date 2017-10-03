@@ -1,0 +1,54 @@
+name: ki-component-store
+version: '0.1.0.0'
+category: Database
+author: Kyarigwo
+maintainer: bwielinga@iprimus.com.au
+copyright: 2017 Kyarigwo
+license: GPL-3
+github: Kyarigwo/ki-component-store
+homepage: http://github.com/Kyarigwo/ki-component-store
+
+extra-source-files:
+- README.md
+
+ghc-options:
+  - -Wall
+
+dependencies:
+- base
+- text
+- containers
+
+library:
+  source-dirs: src
+  ghc-options:
+    - -Wincomplete-uni-patterns
+    - -Wincomplete-record-updates
+  exposed-modules:
+  - Kyarigwo.ComponentStore
+
+executables:
+  ki-component-store-exe:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - ki-component-store
+
+tests:
+  ki-component-store-test:
+    main: Spec.hs
+    source-dirs:
+      - test
+      - src
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+      - tasty
+      - tasty-discover
+      - tasty-hspec

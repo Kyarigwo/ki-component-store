@@ -1,0 +1,69 @@
+-- This file has been generated from package.yaml by hpack version 0.17.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:                ki-component-store
+version:             0.1.0.0
+homepage:            http://github.com/Kyarigwo/ki-component-store
+bug-reports:         https://github.com/Kyarigwo/ki-component-store/issues
+license:             GPL-3
+license-file:        LICENSE
+author:              Kyarigwo
+maintainer:          bwielinga@iprimus.com.au
+copyright:           2017 Kyarigwo
+category:            Database
+build-type:          Simple
+cabal-version:       >= 1.10
+
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/Kyarigwo/ki-component-store
+
+library
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates
+  exposed-modules:
+      Kyarigwo.ComponentStore
+  other-modules:
+      Paths_ki_component_store
+  build-depends:
+      base
+    , text
+    , containers
+  default-language: Haskell2010
+
+executable ki-component-store-exe
+  hs-source-dirs:
+      app
+  main-is: Main.hs
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , text
+    , containers
+    , ki-component-store
+  default-language: Haskell2010
+
+test-suite ki-component-store-test
+  type: exitcode-stdio-1.0
+  hs-source-dirs:
+      test
+      src
+  main-is: Spec.hs
+  build-depends:
+      base
+    , text
+    , containers
+    , tasty
+    , tasty-discover
+    , tasty-hspec
+  other-modules:
+      Kyarigwo.ComponentStoreTest
+      Kyarigwo.TutorialTest
+      Kyarigwo.ComponentStore
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  default-language: Haskell2010
