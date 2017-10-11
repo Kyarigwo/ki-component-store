@@ -18,6 +18,9 @@ dependencies:
 - base
 - text
 - containers
+- mtl
+- microlens
+- aeson
 
 library:
   source-dirs: src
@@ -50,5 +53,7 @@ tests:
     - -with-rtsopts=-N
     dependencies:
       - tasty
-      - tasty-discover
+      - tasty-discover >= 4.0.0
       - tasty-hspec
+      - tasty-hedgehog
+      - hedgehog

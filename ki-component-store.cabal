@@ -29,11 +29,19 @@ library
   exposed-modules:
       Kyarigwo.ComponentStore
   other-modules:
+      Kyarigwo.ComponentStore.CStore
+      Kyarigwo.ComponentStore.Difference
+      Kyarigwo.ComponentStore.HList
+      Kyarigwo.ComponentStore.Monad
+      Kyarigwo.Typename
       Paths_ki_component_store
   build-depends:
       base
     , text
     , containers
+    , mtl
+    , microlens
+    , aeson
   default-language: Haskell2010
 
 executable ki-component-store-exe
@@ -45,6 +53,9 @@ executable ki-component-store-exe
       base
     , text
     , containers
+    , mtl
+    , microlens
+    , aeson
     , ki-component-store
   default-language: Haskell2010
 
@@ -58,12 +69,22 @@ test-suite ki-component-store-test
       base
     , text
     , containers
+    , mtl
+    , microlens
+    , aeson
     , tasty
-    , tasty-discover
+    , tasty-discover >= 4.0.0
     , tasty-hspec
+    , tasty-hedgehog
+    , hedgehog
   other-modules:
       Kyarigwo.ComponentStoreTest
       Kyarigwo.TutorialTest
       Kyarigwo.ComponentStore
+      Kyarigwo.ComponentStore.CStore
+      Kyarigwo.ComponentStore.Difference
+      Kyarigwo.ComponentStore.HList
+      Kyarigwo.ComponentStore.Monad
+      Kyarigwo.Typename
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language: Haskell2010
