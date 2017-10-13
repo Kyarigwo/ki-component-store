@@ -28,12 +28,12 @@ library
   ghc-options: -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates
   exposed-modules:
       Kyarigwo.ComponentStore
+      Kyarigwo.Typename
   other-modules:
       Kyarigwo.ComponentStore.CStore
       Kyarigwo.ComponentStore.Difference
       Kyarigwo.ComponentStore.HList
       Kyarigwo.ComponentStore.Monad
-      Kyarigwo.Typename
       Paths_ki_component_store
   build-depends:
       base

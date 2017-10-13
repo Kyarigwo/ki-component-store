@@ -20,6 +20,7 @@ import Data.Proxy (Proxy(..))
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Lens.Micro (Lens', (&), (%~), (^.))
+import Data.Aeson (FromJSON, ToJSON)
 
 import Kyarigwo.ComponentStore.HList
 {-
@@ -32,7 +33,7 @@ as leaf stores, and also as rows in insert/select queries.
 Primary key of the tables in the ComponentStore.
 -}
 newtype EntityId = EntityId Int
-  deriving (Eq, Show, Ord, Enum)
+  deriving (Eq, Show, Ord, Enum, ToJSON, FromJSON)
 
 initial :: EntityId
 initial = EntityId 0

@@ -172,11 +172,11 @@ spec_Difference :: Spec
 spec_Difference =
   describe "Difference" $ do
     it "difference of two empties is empty" $
-      emptyStore |-| emptyStore `shouldBe` mempty
+      emptyStore \- emptyStore `shouldBe` mempty
     it "difference of two non-empty is empty" $
-      store |-| store `shouldBe` mempty
+      store \- store `shouldBe` mempty
     it "difference of non-empty and empty is" $
-      store |-| emptyStore `shouldBe`
+      store \- emptyStore `shouldBe`
         Differences Nothing (Map.fromList [
                          (("String", EntityId 0), (Just $ A.String "Hello World")),
                          (("Bool", EntityId 0), (Just $ A.Bool False)),
@@ -189,7 +189,7 @@ spec_Difference =
                          (("String", EntityId 2), (Just $ A.String "Not yet the end"))
                           ])
     it "difference of empty and non-empty" $
-      emptyStore |-| store `shouldBe`
+      emptyStore \- store `shouldBe`
           Differences Nothing (Map.fromList [
                          (("String", EntityId 0), Nothing),
                          (("Bool", EntityId 0), Nothing),
@@ -205,8 +205,8 @@ spec_Difference =
 spec_ApplyDifferences :: Spec
 spec_ApplyDifferences =
   describe "Apply Differences" $ do
-     it "has (x |-| y) |+| y = x" $
-       ((store |-| emptyStore) |+| emptyStore) `shouldBe` store
+     it "has (x \\- y) \\+ y = x" $
+       ((store \- emptyStore) \+ emptyStore) `shouldBe` store
 {-
 
 -}

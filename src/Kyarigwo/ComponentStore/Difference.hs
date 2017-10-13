@@ -8,8 +8,11 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ScopedTypeVariables  #-}
 {-# LANGUAGE TupleSections        #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 module Kyarigwo.ComponentStore.Difference where
 
+import GHC.Generics (Generic)
 import Data.Proxy (Proxy(..))
 import Data.Aeson (Value, Result(..), ToJSON(..), FromJSON, fromJSON)
 import Data.Monoid ((<>))
@@ -41,7 +44,7 @@ changed or added, and its new value is given.
 
 -}
 data Differences = Differences (Maybe EntityId) (Map (Text, EntityId) (Maybe Value))
-  deriving (Eq, Show)
+  deriving (Eq, Show, Generic, ToJSON, FromJSON)
 
 setEntityId :: EntityId -> EntityId -> Differences -> Differences
 setEntityId newE oldE (Differences _ s) =
@@ -58,27 +61,27 @@ difference :: Difference' (Tabled s) => CStore s -> CStore s -> Differences
 difference (CStore newE newS) (CStore oldE oldS) =
   setEntityId newE oldE $ difference' newS oldS
 
-infixl 6 |-|
+infixl 6 \-
 
-(|-|) :: Difference' (Tabled s) => CStore s -> CStore s -> Differences
-(|-|) = difference
+(\-) :: Difference' (Tabled s) => CStore s -> CStore s -> Differences
+(\-) = difference
 
 applyDifferences :: Difference' (Tabled s) =>
   Differences -> CStore s -> CStore s
 applyDifferences differences@(Differences me _) (CStore e s)
   = CStore (fromMaybe e me) $ applyDifferences' differences s
 
-infix 6 |+|
+infix 6 \+
 
-(|+|) :: Difference' (Tabled s) =>
+(\+) :: Difference' (Tabled s) =>
   Differences -> CStore s -> CStore s
-(|+|) = applyDifferences
+(\+) = applyDifferences
 
 {-
- (x |-| y) |+| y = x
- x |-| x = mempty
- mempty |+| x = x
- d2 |+| (d1 |+| x) = (d2 <> d1) |+| x
+ (x \- y) \+ y = x
+ x \- x = mempty
+ mempty \+ x = x
+ d2 \+ (d1 \+ x) = (d2 <> d1) \+ x
 -}
 
 {-
@@ -89,10 +92,6 @@ class Difference' s where
   difference' :: s -> s -> Differences
   applyDifferences' :: Differences -> s -> s
 
--- instance Difference' (Tabled s) => Difference' (CStore s) where
---   difference (CStore s) (CStore s') = difference s s'
---   applyDifferences differences (CStore s) =
---     CStore (applyDifferences differences s)
 {-
 Difference between two pairs is the union of the
 differences between each pair.

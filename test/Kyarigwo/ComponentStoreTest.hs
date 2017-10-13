@@ -65,7 +65,7 @@ cStore = do
      & _Entity .~ e
 
 diff :: Gen Differences
-diff = Gen.choice [pure mempty, (|-|) <$> cStore <*> cStore]
+diff = Gen.choice [pure mempty, (\-) <$> cStore <*> cStore]
 
 hprop_Difference_leftId :: Property
 hprop_Difference_leftId = property $ do
@@ -88,16 +88,16 @@ hprop_ApplyDiff :: Property
 hprop_ApplyDiff = property $ do
   x <- forAll cStore
   y <- forAll cStore
-  (y |-| x) |+| x === y
+  (y \- x) \+ x === y
 
 hprop_DiffId :: Property
 hprop_DiffId = property $ do
   x <- forAll cStore
-  x |-| x === mempty
+  x \- x === mempty
 
 hprop_ApplyAction :: Property
 hprop_ApplyAction = property $ do
   d1 <- forAll diff
   d2 <- forAll diff
   x <- forAll cStore
-  d2 |+| (d1 |+| x) === (d2 <> d1) |+| x
+  d2 \+ (d1 \+ x) === (d2 <> d1) \+ x

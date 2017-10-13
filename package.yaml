@@ -29,6 +29,7 @@ library:
     - -Wincomplete-record-updates
   exposed-modules:
   - Kyarigwo.ComponentStore
+  - Kyarigwo.Typename
 
 executables:
   ki-component-store-exe:
